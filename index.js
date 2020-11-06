@@ -51,6 +51,7 @@ async function onStartUp () {
   dvf = await DVF()
   await cancelOpenOrders()
   await syncBalances()
+console.log('Starting balances: ', balanceA, balanceB)
 }
 
 ws.open()
@@ -81,34 +82,26 @@ async function replaceOrders () {
   console.log(`buy at ${lastBidPrice}`, `sell at ${lastAskPrice}`)
   cancelOpenOrders()
   syncBalances()
-  placeOrder(-balanceA)
-  placeOrder(balanceB)
+  placeOrder(-balanceA / 10, )
+  placeOrder(balanceB / (lastMidPrice * 10) )
 }
 
 async function placeOrder (amount) {
-  amount = prepareAmount(amount)
+  amount = prepareAmount(amount, 3)
 
   if (amount === '0') return
   const price = amount > 0 ? lastBidPrice : lastAskPrice
-  if (!price) {
-    console.error('Error getting the price')
-    return
-  }
+  if (!price) return
 
   try {
     await dvf.submitOrder({
       symbol: PAIR,
       amount,
       price,
-      starkPrivateKey: PRIVATE_KEY
+      starkPrivateKey: PRIVATE_KEY.substring(2)
     })
   } catch (e) {
     const error = (e.error && e.error.details && e.error.details.error) || {}
-    console.warn('Trade not completed')
-    if (error.error === 'NOT_ENOUGH_AVAILABLE_BALANCE') {
-      console.warn('Reason: Not enough balance')
-    } else {
-      console.error(e)
-    }
+    console.warn(`Trade not completed: ${error.error}`)
   }
 }
