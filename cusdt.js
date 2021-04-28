@@ -23,13 +23,17 @@ async function marketMake () {
 }
 
 async function periodicReplace() {
+  try {
     midPrice = await getCoingeckoPrice()
     console.log(midPrice)
-    const haveOpenOrders = await checkIfOpenOrders()
-    if (midPrice !== lastMidPrice || !haveOpenOrders) {
-      lastMidPrice = midPrice
-      replaceOrders()
-    }
+  } catch (e) {
+    console.error('Coingecko price error, using previous price', e)
+  }
+  const haveOpenOrders = await checkIfOpenOrders()
+  if (midPrice !== lastMidPrice || !haveOpenOrders) {
+    lastMidPrice = midPrice
+    replaceOrders()
+  }
 }
 
 async function onStartUp () {
