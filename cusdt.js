@@ -91,10 +91,10 @@ async function placeOrder (amount) {
   const [quote, base] = splitSymbol(PAIR)
   let price
   if (amount > 0) {
-    price = preparePrice(lastMidPrice * 0.997)
+    price = preparePrice(lastMidPrice * 0.999)
     console.log('Place buy at:', price)
   } else {
-    price = preparePrice(lastMidPrice * 1.003)
+    price = preparePrice(lastMidPrice * 1.001)
     console.log('Place sell at:', price)
   }
   if (!price) return
