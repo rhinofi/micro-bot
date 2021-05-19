@@ -135,10 +135,10 @@ async function getCoingeckoPrice () {
   }
 
   const apiResponse = await request.get({
-       url: `https://api.coingecko.com/api/v3/simple/token_price/ethereum?contract_addresses=${tokenContractAddress}&vs_currencies=usd`,
+       url: `https://api.compound.finance/api/v2/ctoken?addresses[]=${tokenContractAddress}`,
        json: true
   })
 
-  return parseFloat(apiResponse[tokenContractAddress]['usd']).toPrecision(4)
+  return parseFloat(apiResponse.cToken[0].exchange_rate.value).toPrecision(4)
 }
 
