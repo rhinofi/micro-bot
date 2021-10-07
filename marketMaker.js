@@ -75,9 +75,10 @@ async function syncBalances () {
 async function replaceOrders () {
   cancelOpenOrders()
   await syncBalances()
-  const balanceToSell = Math.min(0.9 * balanceA, 75000 / lastMidPrice)
+  const balanceToSell = Math.min(0.9 * balanceA, 2000)
+  // const balanceToSell = Math.min(0.9 * balanceA, 75000 / lastMidPrice)
   placeOrder(-1 * balanceToSell)
-  const balanceToBuy = Math.min(0.9 * balanceB, 100000) / lastMidPrice
+  const balanceToBuy = Math.min(0.9 * balanceB, 2000) / lastMidPrice
   placeOrder(balanceToBuy)
 }
 
@@ -106,7 +107,7 @@ async function placeOrder (amount) {
       starkPrivateKey: STARK_KEY
     })
   } catch (e) {
-    // console.log('error e', e)
+    console.log('error e', e)
     const error = (e.error && e.error.details && e.error.details.error) || {}
     console.warn(`Trade not completed: ${error.error}`)
   }
