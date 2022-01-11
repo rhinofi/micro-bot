@@ -21,6 +21,18 @@ Once the above setup is complete, you can use the following instructions:
 
 `node index` - starts the bot!
 
+### Using dev / stg market-makers
+
+`CONFIG=<accountAndPairConfig> node <priceScript.js>`
+
+Ex for CUSDT on dev:
+`CONFIG=./config.cusdt.dev.js node cusdt.js`
+
+Ex for xDVF/DVF on staging:
+`CONFIG=./config.xdvf.stg.js node xdvf.js`
+
+In the future configs could be consolidated into a single file
+
 
 ### Other information:
 
