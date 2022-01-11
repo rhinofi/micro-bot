@@ -1,4 +1,4 @@
-const DVF = require('./dvf')
+const dvfClient = require('./dvfClient')
 const _ = require('lodash')
 const { splitSymbol, prepareAmount, preparePrice } = require('dvf-utils')
 
@@ -34,7 +34,7 @@ async function periodicReplace(priceFeed) {
 }
 
 async function startMarketMaker (priceFeed) {
-  dvf = await DVF()
+  dvf = await dvfClient()
   await syncBalances()
   console.log('Starting balances: ', balanceA, balanceB)
   marketMake(priceFeed)
@@ -75,10 +75,10 @@ async function syncBalances () {
 async function replaceOrders () {
   cancelOpenOrders()
   await syncBalances()
-  const balanceToSell = Math.min(0.9 * balanceA, 2000)
+  const balanceToSell = Math.min(0.4 * balanceA, 20000)
   // const balanceToSell = Math.min(0.9 * balanceA, 75000 / lastMidPrice)
   placeOrder(-1 * balanceToSell)
-  const balanceToBuy = Math.min(0.9 * balanceB, 2000) / lastMidPrice
+  const balanceToBuy = Math.min(0.4 * balanceB, 20000) / lastMidPrice
   placeOrder(balanceToBuy)
 }
 

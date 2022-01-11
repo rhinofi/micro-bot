@@ -1,5 +1,5 @@
 const BFX = require('bitfinex-api-node')
-const DVF = require('./dvf')
+const dvfClient = require('./dvfClient')
 const _ = require('lodash')
 const { dvfToBfxSymbol, splitSymbol, prepareAmount, BN } = require('dvf-utils')
 const { BFX_WS, PAIR, PRIVATE_KEY } = require('./config')
@@ -48,7 +48,7 @@ ws.onOrderBook({ symbol: marketPair }, (ob) => {
 onStartUp()
 
 async function onStartUp () {
-  dvf = await DVF()
+  dvf = await dvfClient()
   await cancelOpenOrders()
   await syncBalances()
 console.log('Starting balances: ', balanceA, balanceB)
